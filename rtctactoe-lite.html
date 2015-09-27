@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>PubRTC + Mobile</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+	<style>
+		#tic-tac-box {
+			float: left;
+			min-width: 350px;
+			width: 45%;
+			text-align: center;
+		}
+		#video-chat {
+			float: left;
+			min-width: 350px;
+		}
+		video {
+			width: 100%;
+		}
+	</style>
+
+    
+</head>
+<body>
+<div class = "bodyDiv">
+	<h1 style="text-align: center">RTC Tac Toe</h1>
+    <div id="tic-tac-box"></div>
+    <div style="float: left; width: 50%;">
+	    <div id="video-chat" hidden="true" style="margin-bottom: 10px;">
+			<div id="vid-box"></div>
+			<button onclick="end()">End Call</button>
+	    </div>
+	    
+	    <form name="loginForm" id="login" action="#" onsubmit="return errWrap(login,this);">
+	        	<input type="text" name="username" id="username" placeholder="Enter A Username"/>            
+				<input type="submit" name="login_submit" value="Log In">
+	    </form>
+	
+		<form name="callForm" id="call" action="#" onsubmit="return errWrap(makeCall,this);">
+	        <input type="text" name="number" id="call" placeholder="Enter User To Call!"/>
+	        <input type="submit" value="Call">
+		</form>
+    </div>
+</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="js/webrtc.js"></script>
+<script src="js/tictactoe.js"></script>
+<script type="text/javascript">
+
+var video_hold = document.getElementById("video-chat");
+var video_out  = document.getElementById("vid-box");
+var game_board = document.getElementById("tic-tac-box");
+var user_name = "";
+
+var game_board = ticTacToe(game_board);
+
+function login(form) {
+	user_name = form.username.value || "Anonymous";
+	var phone = window.phone = PHONE({
+	    number        : user_name, // listen on username line else Anonymous
+	    publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
+	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
+	    datachannels  : true,
+	});	
+	phone.ready(function(){form.username.style.background="#55ff5b"; form.login_submit.hidden="true"; });
+	phone.receive(function(session){
+	    session.connected(function(session) { video_hold.hidden=false; video_out.appendChild(session.video); });
+	    session.ended(function(session) { video_out.innerHTML=''; });
+	});
+	phone.datachannel(onDataReceived);
+	return false;
+}
+ 
+function makeCall(form){
+	if (!window.phone) alert("Login First!");
+	else phone.dial(form.number.value);
+	return false;
+}
+
+function end(){
+	if (!window.phone) return;
+	window.phone.hangup();
+	video_hold.hidden = true;
+}
+
+game_board.onSquareClicked(
+	function(squareNum){
+		if (!window.phone) return;
+		var data = {square:squareNum, username:user_name};
+		window.phone.sendData(data);
+	}
+)
+
+// Maybe combine and only give access to onMessgae?
+function onDataReceived(msg){
+	console.log(msg);
+	if (msg.username==user_name) return; // Ignore what I sent.
+	console.log(msg.username + "  " + user_name);
+	var sqr_num = msg.square;
+	game_board.markBox(sqr_num);
+}
+
+function errWrap(fxn, form){
+	try {
+		return fxn(form);
+	} catch(err) {
+		console.log(err);
+		alert("WebRTC is currently only supported by Chrome, Opera, and Firefox");
+		return false;
+	}
+}
+
+</script>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+		Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-46933211-3', 'auto');
+	ga('send', 'pageview');
+
+</script>
+
+</html>
