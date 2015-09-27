@@ -216,12 +216,9 @@ Our callback has now been registered. Thats it, this will mark the box that the 
 
 Me too. Here are some other resources PubNub offers on WebRTC:
 
-[PubNub Android WebRTC API](https://github.com/GleasonK/android-webrtc-api)
-
-[Android WebRTC Example](https://github.com/GleasonK/AndroidRTC/)
-
-[PubNub WebRTC SDK](https://github.com/stephenlb/webrtc-sdk)
-
-[What is WebRTC](http://www.pubnub.com/blog/what-is-webrtc/)
+- [PubNub Android WebRTC API](https://github.com/GleasonK/android-webrtc-api)
+- [Android WebRTC Example](https://github.com/GleasonK/AndroidRTC/)
+- [PubNub WebRTC SDK](https://github.com/stephenlb/webrtc-sdk)
+- [What is WebRTC](http://www.pubnub.com/blog/what-is-webrtc/)
 
 We will be putting out more information and tricks of using WebRTC in the coming weeks so stay tuned!
