@@ -1,8 +1,8 @@
 ## WebRTC Gaming - TicTacToe
 
-Time to show off the versatility of WebRTC. If you don't know it already, WebRTC is a free, open project that provides simple APIs for creating Real-Time Communications (RTC) for browsers and mobile devices. It makes streaming any content such as video, audio, or arbitrary data simple and _fast_!
-
 ![TicTacRTC](img/header.png)
+
+Time to show off the versatility of WebRTC. If you don't know it already, WebRTC is a free, open project that provides simple APIs for creating Real-Time Communications (RTC) for browsers and mobile devices. It makes streaming any content such as video, audio, or arbitrary data simple and _fast_!
 
 ## Why PubNub? Signaling.
 
@@ -73,10 +73,12 @@ The `tic-tac-box` div will house our game board, and `video-chat` is where we wi
 
 There are three libraries that you will need to include to make WebRTC operations much easier. The first thing you should include is [jQuery](https://jquery.com/) to make modifying DOM elements a breeze. Then, you will need the PubNub JavaScript SDK to facilitate the WebRTC signaling. Finally, include the PubNub WebRTC SDK which makes placing phone calls as simple as calling the `dial(number)` function.
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
-    <script src="http://kevingleason.me/WebRTC-TicTacToe/js/webrtc-2.0.0.js"></script>
-    <script src="http://kevingleason.me/WebRTC-TicTacToe/js/tictactoe.js"></script>
+```html
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="http://kevingleason.me/WebRTC-TicTacToe/js/webrtc-2.0.0.js"></script>
+<script src="http://kevingleason.me/WebRTC-TicTacToe/js/tictactoe.js"></script>
+```
 
 The `tictactoe.js` is a basic game implementation I found online and modified to make this tutorial easy. It has functions to mark squares and reset the game. 
 
@@ -151,12 +153,16 @@ As I said earlier, the TicTacToe script has a few helpful functions. We will be 
 
 To get started, lets set a few global variables:
 
-	var game_board = document.getElementById("tic-tac-box");
-	var user_name = "";
+```javascript
+var game_board = document.getElementById("tic-tac-box");
+var user_name = "";
+```
 
 The `game_board` will be populated with the TicTacToe board, and `user_name` will store the currently logged in user. We can fill our `game_board` with our game with the following code:
 
-	var game_board = ticTacToe(game_board);
+```javascript
+var game_board = ticTacToe(game_board);
+```
 
 If all goes well you should see your basic HTML backbone alongside a clickable TicTacToe board!
 
@@ -166,7 +172,7 @@ If all goes well you should see your basic HTML backbone alongside a clickable T
 
 The `game_board.onSquareClicked` function allows us to define a callback that will be used whenever a user makes a valid move.
 
-```
+```javascript
 game_board.onSquareClicked(
 	function(squareNum){  // Number of the box that was clicked
 		if (!window.phone) return;
@@ -184,7 +190,7 @@ __The PubNub streaming network is ideal for things like global map chat, while D
 
 We have now sent messages through the DataChannel API, but we still need to implement the receiving code. The PubNub WebRTC SDK allows you to define a DataChannel callback `phone.datachannel(callbackFxn)` to handle incoming messages. The callback function should take one parameter, `msg`, which is the incoming data message.
 
-```
+```javascript
 function onDataReceived(msg){
 	var sqr_num = msg.square;
 	game_board.markBox(sqr_num);
@@ -193,7 +199,7 @@ function onDataReceived(msg){
 
 Simply put, we receive the data send in `onSquareClicked`, of the form `{square : squareNum}`, and then mark the `game_board`. The final step is to register this callback with our `phone` object. In the `login` function, right before we return, add a call to `phone.datachannel`.
 
-```
+```javascript
 function login(form) {
 	// Setup phone
 	// Ready and Receive Callbacks
