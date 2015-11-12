@@ -4,7 +4,7 @@
 
 Time to show off the versatility of WebRTC. If you don't know it already, WebRTC is a free, open project that provides simple APIs for creating Real-Time Communications (RTC) for browsers and mobile devices. It makes streaming any content such as video, audio, or arbitrary data simple and _fast_!
 
-## Why PubNub? Signaling.
+## PubNub for Signaling.
 
 WebRTC is not a standalone API, it needs a signaling service to coordinate communication. Metadata needs to be sent between callers before a connection can be established. 
 
@@ -114,7 +114,7 @@ You can see we use the username as the phone's number, and instantiate PubNub us
 
 The `phone.receive` function allows you to define a callback that takes a session for when a session (call) event occurs, whether that be a new call, a call hangup, or for losing service, you attach those event handlers to the sessions in `phone.receive`. 
 
-I defined `session.connected` which is called after receiving a call when you are ready to begin talking. I simple appended the session's video element to our video div. 
+I defined `session.connected` which is called after receiving a call when you are ready to begin talking. I simply appended the session's video element to our video div. 
 
 Then, I define `session.ended` which is called after invoking `phone.hangup`. This is where you place end-call logic. I simply clear the video holder's innerHTML.
 
