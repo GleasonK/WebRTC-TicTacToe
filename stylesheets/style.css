@@ -12,6 +12,31 @@ video {
 	width: 100%;
 }
 
+a {
+	color: #4f4f4f;
+	font-weight: 500;
+}
+
+#scotch-img, #pn-img {
+	background: #333;
+	display: inline-block;
+	border-radius: 50%;
+}
+
+#scotch-img {
+	padding: 3px 10px;
+}
+
+#pn-img {
+	width: 50px;
+	height: 50px;
+}
+
+#add-img{
+	height: 50px;
+	width: 50px;
+}
+
 .input {
 	position: relative;
 	z-index: 1;
