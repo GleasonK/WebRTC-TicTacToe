@@ -2,6 +2,9 @@
 
 ![TicTacRTC](img/header.png)
 
+[View the WebRTC TicTacToe Tutorial on
+Scotch.io](https://scotch.io/tutorials/learn-webrtc-build-a-real-time-tic-tac-toe)
+
 Time to show off the versatility of WebRTC. If you don't know it already, WebRTC is a free, open-source project that provides simple APIs for creating Real-Time Communications (RTC) for browsers and mobile devices. It makes streaming any content such as video, audio, or arbitrary data simple and _fast_!
 
 ## PubNub for Signaling.
